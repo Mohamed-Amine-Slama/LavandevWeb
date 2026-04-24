@@ -86,7 +86,7 @@
       color: var(--w1-text);
       font-family: var(--font-body);
       font-weight: 300;
-      overflow-x: hidden;
+      overflow: hidden;
       cursor: none
     }
 
@@ -541,6 +541,7 @@
       color: rgba(240, 236, 230, 0.95);
       text-shadow: 0 0 40px rgba(232, 224, 208, 0.3);
       will-change: transform, opacity;
+      transform: translateY(100%);
     }
 
     .side-text-inner.outline {
@@ -3100,6 +3101,8 @@
        LENIS + GSAP
        ═══════════════════════════════════════════ */
     const lenis = new Lenis({ lerp: 0.065, smoothWheel: true });
+    lenis.stop();
+    document.body.style.overflow = 'hidden';
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
     gsap.registerPlugin(ScrollTrigger);
@@ -3316,6 +3319,11 @@
             rainActive = false;
             cancelAnimationFrame(rainRaf);
             loader.style.display = 'none';
+            document.body.style.overflowY = 'auto';
+            document.body.style.overflowX = 'hidden';
+            window.scrollTo(0, 0);
+            lenis.scrollTo(0, { immediate: true });
+            lenis.start();
             if (typeof initHero === 'function') initHero();
           }
         });
